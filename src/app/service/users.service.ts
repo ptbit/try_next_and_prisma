@@ -23,6 +23,11 @@ export const UserService = {
     return data.prismaUsers;
   },
 
+  async getUser( id:number) {
+    const { data } = await axios.get(BASEURL + `/users/${id}`);
+    return data.prismaUsers;
+  },
+
   async addUser({ name, email }: AddUserProps) {
     try {
       const newUser = await axios.post(BASEURL + "/users", {
@@ -38,7 +43,7 @@ export const UserService = {
 
   async deleteUser({ id }: DeleteUserProps) {
     try {
-      const resp = await axios.delete(BASEURL + `/users/${id}`, {});
+      await axios.delete(BASEURL + `/users/${id}`, {});
 
       return NextResponse.json("del");
     } catch (err) {

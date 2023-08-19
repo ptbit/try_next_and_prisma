@@ -1,5 +1,6 @@
 "use client";
 import { UserService } from "@app/service/users.service";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AddUser } from "./AddUser";
 import { DeleteModal } from "./DeleteModal";
@@ -14,7 +15,6 @@ type UserType = {
 
 export const Users = () => {
   const [apiUsers, setApiUsers] = useState([]);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletedUserId, setDeletedUserId] = useState(0);
 
@@ -99,9 +99,16 @@ export const Users = () => {
         apiUsers.map((user: UserType) => {
           return (
             <div className="flex flex-row w-full gap-2 mb-1 hover:bg-neutral-300" key={user.id}>
-              <span className="border px-3 w-1/3">{user.id}</span>
-              <span className="border px-3 w-1/3">{user.name}</span>
-              <span className="border px-3 w-1/3">{user.email}</span>
+              <Link className="border px-3 w-1/3" href={`/users/${user.id}`}>
+                <span>{user.id}</span>{" "}
+              </Link>
+              <Link className="border px-3 w-1/3" href={`/users/${user.id}`}>
+                <span>{user.name}</span>
+              </Link>
+              <Link className="border px-3 w-1/3" href={`/users/${user.id}`}>
+                <span>{user.email}</span>
+              </Link>
+
               <button
                 className="border px-3 bg-amber-100 hover:bg-amber-300"
                 onClick={() => {
