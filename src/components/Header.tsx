@@ -10,11 +10,14 @@ const Header = () => {
           <Link href="/" className="px-10 py-2 border cursor-pointer">
             <li>Home</li>
           </Link>
-          <Link href="/users" className="px-10 py-2 border cursor-pointer">
+          {/* <Link href="/users" className="px-10 py-2 border cursor-pointer">
             <li>Users</li>
           </Link>
           <Link href="/posts" className="px-10 py-2 border cursor-pointer">
             <li>Posts</li>
+          </Link> */}
+          <Link href="/tools" className="px-10 py-2 border cursor-pointer">
+            <li>Tools</li>
           </Link>
         </ul>
       </nav>
