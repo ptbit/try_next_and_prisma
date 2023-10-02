@@ -12,32 +12,10 @@ datasource db {
 
 model Tool {
   id            Int             @id @default(autoincrement())
-  type          Type[]
-  model         String
-  serialNumber  String
-  arrivalAt     String
-  location      Location        @relation(fields: [locationId], references: [id])
-  locationId    Int
-  certification Certification[]
-  wikiID        String
-  origin        String
-  legalStatus   LegalStatus     @relation(fields: [legalStatusId], references: [id])
-  legalStatusId Int
-  note          String
-  status        Status          @relation(fields: [statusId], references: [id])
-  statusId      Int
-  permissions   Permissions[]
   title         String
-  description   Description[]
-  image         String          @default("")
-}
-
-model Description {
-  id     Int    @id @default(autoincrement())
-  tool   Tool   @relation(fields: [toolId], references: [id])
-  toolId Int
-  name   String
-  value  String
+  description   String
+  image         String          
+  type          Type[]
 }
 
 model Type {
@@ -45,35 +23,3 @@ model Type {
   name String
   tool Tool[]
 }
-
-model Certification {
-  id   Int    @id
-  name String
-  tool Tool[]
-}
-
-model LegalStatus {
-  id   Int    @id @default(autoincrement())
-  name String
-  tool Tool[]
-}
-
-model Status {
-  id   Int    @id @default(autoincrement())
-  name String
-  Tool Tool[]
-}
-
-model Location {
-  id   Int    @id @default(autoincrement())
-  name String
-  tool Tool[]
-}
-
-model Permissions {
-  id   Int    @id @default(autoincrement())
-  name String
-  tool Tool[]
-}
-
-// img?
