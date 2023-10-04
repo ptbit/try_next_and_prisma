@@ -1,13 +1,15 @@
-import { prisma } from "@lib/prisma";
+import prisma from "@lib/db";
 import { NextResponse } from "next/server";
+
+type TypeType = {
+  id: number;
+};
 
 export const GET = async () => {
   try {
     const tools = await prisma.tool.findMany({
       include: {
-        description: true,
         type: true,
-        status: true,
       },
     });
     return NextResponse.json({ message: "OK", tools }, { status: 200 });
@@ -17,41 +19,39 @@ export const GET = async () => {
   }
 };
 
-export const POST = async () => {
-  try {
-    // const { name, email } = await req.json();  req: Request
+export const POST = async (req: Request) => {
+  const { title, description, image, types } = await req.json();
+  const newTypes: number[] = new Array(...types);
+  let connectArr: TypeType[] = [];
 
+  newTypes.forEach((type) => {
+    connectArr.push({ id: type });
+  });
+  try {
     const resp = await prisma.tool.create({
       data: {
-        arrivalAt: "2012-02-019",
-        id: 3,
-        image:
-          "https://wiki.protospace.ca/images/thumb/6/6e/159.jpg/250px-159.jpg",
-        legalStatusId: 1,
-        locationId: 1,
-        model:
-          "Rabbit Laser USA RL-80-1290 (where RL is the factory code, 80 is the original laser power in watts, and 1290 represents the bed size (1200 x 900 mm))",
-        note: "",
-        origin: "Brian Queen",
-        serialNumber: "",
-        // status: { name: "work" },
-        statusId: 1,
-        title: "Laser cutter, large (Rabbit Laser RL-80-1290)",
-        type: [{ id: 1, name: "3d printer" }],
-        wikiID: "6",
+        title,
+        description,
+        image,
+        type: { connect: connectArr },
       },
     });
-    // await prisma.Type
-    return NextResponse.json({ message: "OK", resp }, { status: 201 });
-    // const newUser = await prisma.user.create({
-    //   data: {
-    //     name,
-    //     email
-    //   }
-    // })
-
-    // return NextResponse.json({ message: "OK", newUser }, { status: 201 });
+    return NextResponse.json({ message: "OK", resp }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: "POST Error", err }, { status: 500 });
   }
 };
+
+// export const POST = async (req: Request) => {
+//   const { id, newTitle } = await req.json();
+//   console.log("edit tool title by id", id, "new title:", newTitle);
+//   try {
+//     const resp = await prisma.tool.update({
+//       where: { id: id },
+//       data: { title: newTitle },
+//     });
+//     return NextResponse.json({ message: "OK", resp }, { status: 201 });
+//   } catch (err) {
+//     return NextResponse.json({ message: "POST Error", err }, { status: 500 });
+//   }
+// };
