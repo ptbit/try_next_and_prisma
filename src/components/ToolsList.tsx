@@ -7,6 +7,7 @@ import { Modal } from "./Modal";
 import { DeleteToolModal } from "./DeleteToolModal";
 import Image from "next/image";
 import { AddToolModal } from "./AddToolModal";
+import { EditToolModal } from "./EditToolModal";
 
 type ToolType = {
   id: number;
@@ -25,9 +26,11 @@ type ToolDescription = {
 const ToolsList = () => {
   const [tools, setTools] = useState([]);
   const [render, setRender] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteToolId, setDeleteToolId] = useState(0);
+  const [editTool, setEditTool] = useState({});
 
   useEffect(() => {
     getAllTools();
@@ -35,7 +38,6 @@ const ToolsList = () => {
 
   const getAllTools = async () => {
     const allTools = await ToolsService.getTools();
-    console.log("allTools", allTools);
     setTools(allTools);
   };
 
@@ -52,7 +54,6 @@ const ToolsList = () => {
       toolTypesIds
     );
     if (res === "OK") {
-      console.log("reload");
       setRender(!render);
     }
   };
@@ -60,6 +61,27 @@ const ToolsList = () => {
   const onDeleteToolBtnHandler = async (id: number) => {
     await ToolsService.deleteTool(id);
     setRender(!render);
+  };
+
+  const onEditToolBtnHandler = async (
+    id: number,
+    toolImageUrl: string,
+    toolTitle: string,
+    toolDescription: string,
+    connectArrIds: any,
+    disconnectArrIds: any
+  ) => {
+    const res = await ToolsService.editTool(
+      id,
+      toolImageUrl,
+      toolTitle,
+      toolDescription,
+      connectArrIds,
+      disconnectArrIds
+    );
+    if (res === "OK") {
+      setRender(!render);
+    }
   };
 
   return (
@@ -79,6 +101,20 @@ const ToolsList = () => {
               }}
             ></Image>
           </div>
+
+          <Modal
+            open={showEditModal}
+            onClose={() => {
+              setShowEditModal(false);
+            }}
+          >
+            <EditToolModal
+              setShowEditModal={setShowEditModal}
+              onEditToolBtnHandler={onEditToolBtnHandler}
+              editTool={editTool}
+            />
+          </Modal>
+
           <Modal
             open={showDeleteModal}
             onClose={() => {
@@ -111,8 +147,10 @@ const ToolsList = () => {
                   tool={tool}
                   setRender={setRender}
                   render={render}
-                  setShowDeleteModal={setShowDeleteModal}
                   setDeleteToolId={setDeleteToolId}
+                  setShowEditModal={setShowEditModal}
+                  setShowDeleteModal={setShowDeleteModal}
+                  setEditTool={setEditTool}
                 />
               </ul>
             );

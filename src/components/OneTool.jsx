@@ -10,6 +10,8 @@ const OneTool = ({
   render,
   setShowDeleteModal,
   setDeleteToolId,
+  setShowEditModal,
+  setEditTool,
 }) => {
   const [types, setTypes] = useState([]);
 
@@ -37,7 +39,7 @@ const OneTool = ({
   if (tool.image.startsWith("http://") || tool.image.startsWith("https://")) {
     imageUrl = tool.image;
   }
-  
+
   return (
     <>
       <div className="flex gap-2">
@@ -91,7 +93,8 @@ const OneTool = ({
               height={35}
               alt={"edit btn"}
               onClick={() => {
-                console.log("need edit tool", tool.id);
+                setShowEditModal(true);
+                setEditTool(tool);
               }}
             ></Image>
 

@@ -42,4 +42,23 @@ export const ToolsService = {
   async deleteTool(id: number) {
     await axios.delete(BASEURL + `/tools/${id}`);
   },
+
+  async editTool(
+    id: number,
+    toolImageUrl: string,
+    toolTitle: string,
+    toolDescription: string,
+    connectArrIds: any,
+    disconnectArrIds: any
+  ) {
+    const { data } = await axios.put(BASEURL + `/tools/${id}`, {
+      title: toolTitle,
+      description: toolDescription,
+      image: toolImageUrl,
+      connectArrIds,
+      disconnectArrIds,
+    });
+
+    return data.message;
+  },
 };

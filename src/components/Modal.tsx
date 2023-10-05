@@ -13,12 +13,11 @@ export const Modal = ({ open, onClose, children }: ModalPropsType) => {
       }`}
       onClick={onClose}
     >
-      {/* modal */}
       <div
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className={`w-1/3 bg-white rounded-xl shadow p-6 transition-all ${
+        className={`w-1/2 bg-white rounded-xl shadow p-6 transition-all ${
           open ? "scale-100 opacity-100" : "scale-125 opacity-0"
         }`}
       >
