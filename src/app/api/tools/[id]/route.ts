@@ -15,7 +15,7 @@ export const POST = async (req: Request) => {
 
     const typesIdArr: number[] = [];
     if (check) {
-      check.type.forEach((type) => {
+      check.type.forEach((type:any) => {
         typesIdArr.push(type.id);
       });
     }

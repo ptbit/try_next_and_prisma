@@ -1,9 +1,6 @@
 const { types } = require("./types.js");
 const { tools } = require("./tools.js");
-import prisma from './db'
-// const { PrismaClient } = require("@prisma/client");
-
-// const prisma = new PrismaClient();
+const {prisma} = require("../src/lib/prisma.ts");
 
 async function seeding() {
   await prisma.type.deleteMany();
