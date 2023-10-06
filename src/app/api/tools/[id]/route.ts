@@ -15,7 +15,7 @@ export const POST = async (req: Request) => {
 
     const typesIdArr: number[] = [];
     if (check) {
-      check.type.forEach((type:any) => {
+      check.type.forEach((type: any) => {
         typesIdArr.push(type.id);
       });
     }
@@ -70,7 +70,6 @@ export const PUT = async (req: Request) => {
     const { title, description, image, connectArrIds, disconnectArrIds } =
       await req.json();
     const id = +req.url.split("/tools/")[1];
-
 
     const updatedTool = await prisma.tool.update({
       where: { id },
